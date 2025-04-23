@@ -1,0 +1,3 @@
+# Cleanup script for BET
+
+# Currently it does nothing...

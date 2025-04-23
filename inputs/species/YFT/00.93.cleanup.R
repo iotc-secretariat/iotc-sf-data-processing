@@ -1,0 +1,3 @@
+# Cleanup script for YFT
+
+# Currently it does nothing...
