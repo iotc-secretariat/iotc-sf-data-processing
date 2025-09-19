@@ -1,0 +1,180 @@
+---
+params:
+    dynamictitle: "mytitledefinedintheparamslistofrender"
+title: "`r params$dynamictitle`"
+author: "Author: [IOTC Secretariat](mailto:IOTC-Secretariat@fao.org)" 
+output:
+  html_document2:
+    css: "../templates/html_template.css"
+    number_sections: FALSE
+    toc: yes
+    toc_float:
+      collapsed: FALSE
+      smooth_scroll: FALSE
+  word_document2:
+    reference_docx: "../templates/doc_template.docx"
+    number_sections: FALSE
+  
+---
+  
+```{r general_options, echo = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  tidy = TRUE,
+  tidy.opts = list(width.cutoff = 60),
+  size = 'small',
+  
+  tab.cap.pre = "Table ",
+  tab.cap.sep = ". ",
+  tab.cap.style ='Table Caption',
+  
+  fig.cap.style = "Caption label",
+  fig.cap.pre = "Fig. ", 
+  fig.cap.sep = ". ",
+  
+  fig.width   = 8,
+  fig.height  = 4.5
+)
+
+knit_hooks$set(
+  inline = function(x) {
+    prettyNum(x, big.mark = "")
+  }
+)
+```
+
+```{r OutputTables, echo = FALSE}
+out_dt = function(data, name) {
+  datatable(data, 
+            rownames = FALSE, 
+            filter = "bottom", 
+            extensions = "Buttons", 
+            options = 
+              list(dom = "Bfrtip", 
+                   buttons = list(
+                     list(
+                       extend = "csv", 
+                       filename = name
+                     )
+                   )
+              )
+  )
+}
+```
+
+## Abstract
+
+Each year, the IOTC Secretariat prepares reference size-frequency datasets for each IOTC species to provide information on the size composition of their catch in the IOTC area of competence. The data are collected on land by enumerators during unloading and transshipments and at sea by fishers and scientific observers from the [IOTC Contracting Parties and Cooperating Non-Contracting Parties](https://iotc.org/about-iotc/structure-commission) (CPCs) as per IOTC data requirements ([IOTC Resolution 15/02](https://www.iotc.org/cmm/resolution-1502-mandatory-statistical-reporting-requirements-iotc-contracting-parties-and)). The data are submitted on an annual basis, mostly with [IOTC Form 4SF](https://data.iotc.org/reference/latest/forms/#Form_4SF), and curated by the Secretariat for dissemination prior to the IOTC working groups.
+
+## Global attributes
+
+- **Title**: Standardised size-frequency data available in the IOTC database for `r SPECIES_SELECTED`
+- **Summary**: Curated dataset providing detailed information on the length composition of tuna catch
+- **Context of development**: Management of tuna and tuna-like species under IOTC mandate
+- **Data origin**: Size samples collected on land or at sea by national institutions and the fishing industry, with some data having been previously extrapolated to represent the broader fishery
+- **Lineage**: Formatting, filtering, and conversion of size data submitted to the Secretariat ([Data processing](#processing))
+- **Keywords**: `r SPECIES_SELECTED`, length, selectivity, size, tuna fisheries
+- **Type**: Tabular files
+- **Format**: CSV
+- **Size**: `r prettyNum(STD_SF_MELTED_DATA_SIZE, big.mark = ",")` KB for melted dataset and `r prettyNum(STD_SF_TABLE_DATA_SIZE, big.mark = ",")` KB for pivot table dataset
+- **Structures**: 
+    + `r prettyNum(nrow(FL_STD_DATA_SPECIES), big.mark = ",")` rows x `r prettyNum(ncol(FL_STD_DATA_SPECIES), big.mark = ",")` columns
+    + `r prettyNum(nrow(FL_STD_DATA_SPECIES_TABLE), big.mark = ",")` rows x `r prettyNum(ncol(FL_STD_DATA_SPECIES_TABLE), big.mark = ",")` columns
+- **Taxonomic standard**: [ASFIS](https://data.apps.fao.org/catalog/dataset/cwp-asfis)
+- **Geographic description**: Fishing areas within the Indian Ocean
+- **Spatial extent**: `r LONGITUDE_RANGE_REGULAR_GRIDS` longitude and `r LATITUDE_RANGE_REGULAR_GRIDS` latitude for regular grids
+- **Temporal extent**: `r paste(min(FL_STD_DATA_SPECIES_TABLE$YEAR), max(FL_STD_DATA_SPECIES_TABLE$YEAR), sep = "-")`
+- **Temporal extent start date**: `r min(FL_STD_DATA_SPECIES$DATE_START)`
+- **Temporal extent end date**: `r max(FL_STD_DATA_SPECIES$DATE_END)`
+- **Spatial resolution**: [Spatial resolution](#SpatialResolution) table
+- **Spatial standard**: [CWP](https://github.com/fdiwg/) for regular grid areas
+- **Temporal resolution**: [Temporal resolution](#TemporalResolution) table
+- **Date standard**: [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
+- **Data quality**: [IOTC reporting quality scoring](#RQS)
+- **Update frequency**: At least once per year
+- **Metadata production date**: `r format(Sys.time(), '%d %B %Y')`
+- **Source**: IOTC
+- **Contact**: [IOTC-Statistics@fao.org](mailto:IOTC-Statistics@fao.org)
+- **Credit**: IOTC Secretariat
+- **Associated rights**: Public-domain data requiring source acknowledgement
+
+## Data processing {#processing}
+
+The document [IOTC-2020-WPDCS16-16](https://iotc.org/documents/WPDCS/16/16) describes the processing steps applied to the size-frequency data managed at the IOTC Secretariat:
+
+1- Removal of all sizes reported with an interval larger than the maximum interval value ([Size measurement features](#features))
+
+2- Conversion of all sizes into standard measurement type with reference to conversion methods available in [`r TITLE_CONVERSION_DOCUMENT`](`r URL_CONVERSION_DOCUMENT`)
+
+3- Distribution of the number of fish reported in intervals larger than the standard interval ([Size measurement features](#features)) into equally spaced smaller intervals
+
+4- Assignment of all standard lengths smaller than the minimum standard length class to the minimum standard length class ([Size measurement features](#features))
+
+5- Removal of all standard lengths larger than the maximum standard length class
+
+6- Removal of data reported for areas not in the Indian Ocean
+
+## Size measurement features {#features}
+
+```{r SizeMeasurementFeatures}
+datatable(METADATA_SIZE_STANDARDS, rownames = FALSE, options = list(dom = 't'))
+```
+
+## Dataset fields
+
+```{r FieldsDefinitions}
+datatable(FIELDS_STD_SF_DATA_TABLE, escape = FALSE, rownames = FALSE, options = list(dom = 't', pageLength = nrow(FIELDS_STD_SF_DATA_TABLE)))
+```
+
+## Data contents {#contents}
+
+### Reporting quality scores {#RQS}
+
+```{r ReportingQS}
+QUALITY_SCORE_KEY_FT
+```
+
+### Spatial resolution {#SpatialResolution}
+
+```{r SpatialResolution}
+datatable(SPATIAL_RESOLUTION, rownames = FALSE, options = list(dom = 't')) %>% formatCurrency(columns = c("Strata", "Samples"), mark = ",", currency = "", digits = 0)
+#out_dt(SPATIAL_RESOLUTION, name = "SPATIAL_RESOLUTION") %>% formatCurrency(columns = c("Strata", "Samples"), mark = ",", currency = "", digits = 0)
+```
+
+### Temporal resolution {#TemporalResolution}
+
+```{r TemporalResolution}
+datatable(TEMPORAL_RESOLUTION, rownames = FALSE, options = list(dom = 't')) %>% formatCurrency(columns = c("Samples"), mark = ",", currency = "", digits = 0)
+```
+
+## Code lists
+
+### Fleets
+
+```{r FleetCodeList}
+datatable(CL_FLEETS, rownames = FALSE, options = list(dom = 't', pageLength = nrow(CL_FLEETS)))
+```
+
+### Gears
+
+```{r gearCodeList}
+datatable(CL_GEARS, rownames = FALSE, options = list(dom = 't', pageLength = nrow(CL_GEARS)))
+```
+
+### School types
+
+```{r SchoolTypeCodeList}
+datatable(CL_SCHOOL_TYPES, rownames = FALSE, options = list(dom = 't', pageLength = nrow(CL_SCHOOL_TYPES)))
+```
+
+### Measure types
+
+```{r MeasureTypeCodeList}
+datatable(CL_MEASUREMENTS, rownames = FALSE, options = list(dom = 't', pageLength = nrow(CL_MEASUREMENTS)))
+```
+
+### Raisings
+
+```{r RaisingCodeList}
+datatable(CL_RAISINGS, rownames = FALSE, options = list(dom = 't', pageLength = nrow(CL_RAISINGS)))
+```

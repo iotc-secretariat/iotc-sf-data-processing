@@ -1,7 +1,7 @@
 print("Initialisation of metadata...")
 
 ## Metadata from species identification
-METADATA_SIZE_STANDARDS_TABLE = fread(input = "https://data.iotc.org/reference/latest/domain/biology/codelists/RECOMMENDED_MEASUREMENTS_1.0.0.csv")[SPECIES_CODE == CODE_SPECIES_SELECTED][, .(`Type of measurement code` = TYPE_OF_MEASUREMENT_CODE, `Measurement code` = MEASUREMENT_CODE, `Default measurement interval` = DEFAULT_MEASUREMENT_INTERVAL, `Maximum measurement interval` = MAX_MEASUREMENT_INTERVAL, `Minimum size` = MIN_MEASUREMENT, `Maximum size` = MAX_MEASUREMENT)]
+METADATA_SIZE_STANDARDS_TABLE = CL_SIZE_REC_TABLE[, .(`Type of measurement code` = TYPE_OF_MEASUREMENT_CODE, `Measurement code` = MEASUREMENT_CODE, `Default measurement interval` = DEFAULT_MEASUREMENT_INTERVAL, `Maximum measurement interval` = MAX_MEASUREMENT_INTERVAL, `Minimum size` = MIN_MEASUREMENT, `Maximum size` = MAX_MEASUREMENT)]
 
 # Add measurement unit
 METADATA_SIZE_STANDARDS_TABLE[, `Measurement unit` := "cm"]

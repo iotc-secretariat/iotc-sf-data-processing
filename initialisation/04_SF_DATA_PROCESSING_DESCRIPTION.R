@@ -39,7 +39,7 @@ weightConversionToRoundWeightMissing = weightCodesDataset[weightCodesDataset != 
 
 SF_MissingRoundWeightConversion = SF_RAW_DATA_SPECIES[MEASURE_TYPE_CODE %in% weightConversionToRoundWeightMissing]
 
-SF_MissingRoundWeightConversion
+SF_MissingRoundWeightConversion[, .(FISH_COUNT = sum(FISH_COUNT)), keyby = .(RAISE_CODE, RAISING, MEASURE_TYPE_CODE, MEASURE_TYPE)]
 
 ### 4- Fish too large (after conversion to fork length)
 
