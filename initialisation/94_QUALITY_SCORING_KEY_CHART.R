@@ -11,10 +11,11 @@ QUALITY_SCORE_KEY_FT =
   border_outer(border = fp_border(width = 2)) %>% 
   flextable::align(i = c(3, 4), j = 3:4, align = "center", part = "body") %>%
   flextable::align(j = 1:4, part = "header", align = "center") %>%
-  bg(i = c(1), j = 3:4, bg = "#A3C068FF") %>%
-  bg(i = c(2:3), j = 3:4, bg = "#D7E4BDFF") %>%
-  bg(i = c(4), j = 3:4, bg = "#632523FF") %>%
-  color(i = 4, j = 3:4, color = "white", part = "body") %>%
+  bg(i = c(1), j = 3:4, bg = colors_for_quality(0)$FILL) %>%
+  bg(i = c(2), j = 3:4, bg = colors_for_quality(2)$FILL) %>%      
+  bg(i = c(3), j = 3:4, bg = colors_for_quality(6)$FILL) %>%        #"#953735FF"
+  bg(i = c(4), j = 3:4, bg = colors_for_quality(8)$FILL) %>%       
+  color(i = 3:4, j = 3:4, color = "white", part = "body") %>%
   hline(i = 2:nrow(QUALITY_SCORE_KEY) - 1, border = fp_border(width = 1)) %>%
   vline(j = 1:(ncol(QUALITY_SCORE_KEY) - 1), border = fp_border(style = "solid")) %>%
   merge_h_range(i = 3:4, j1 = "By species", j2 = "By gear", part="body") %>%
