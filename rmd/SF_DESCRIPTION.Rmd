@@ -1,0 +1,132 @@
+---
+params:
+    dynamictitle: "mytitledefinedintheparamslistofrender"
+title: "`r params$dynamictitle`"
+author: "Author: [IOTC Secretariat](mailto:IOTC-Secretariat@fao.org)" 
+output:
+  officedown::rdocx_document:
+    reference_docx: "../templates/rdoc_template.docx"
+reference_num: true
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, 
+                      tab.cap.pre = "Tab. ", 
+                      tab.cap.sep = ". ", 
+                      tab.cap.style ="Table Caption", 
+                      #                      tab.cap.fp_text = officer::fp_text_lite(italic = TRUE, bold = TRUE), 
+                      fig.cap = TRUE, 
+                      fig.cap.pre = "Fig. ", 
+                      fig.cap.sep = ". ", 
+                      fig.cap.style = "Caption label",
+                      dpi = 300
+)
+```
+
+```{r Headers, echo = FALSE}
+logo.file = file.path("../templates/FAO_IOTC_LOGOS.png")
+
+bl_header_no_logo = function(txt, position) {
+  block_list(
+    fpar(values = txt, fp_p = fp_par(text.align = position, border.bottom = fp_border()), fp_t = fp_text_lite(color = "black", bold = FALSE, font.size = 12))
+  )
+}
+
+bl_header_with_logo = function(txt, position) {
+  block_list(
+    fpar(external_img(src = logo.file, height = 0.71, width = 7.19, unit = "in"), 
+    ftext = txt, 
+         fp_p = fp_par(text.align = position, border.bottom = fp_border()), 
+         fp_t = fp_text_lite(color = "black", bold = FALSE, font.size = 12)))
+}
+
+sec_pr = prop_section(
+  header_first = bl_header_with_logo("IOTC-DATASETS-SF", "right"),
+  header_default = bl_header_no_logo("IOTC-DATASETS-SF", "right")
+)
+```
+
+```{r TextStyles, echo = FALSE}
+fp = fp_par(
+  text.align = "center", 
+  padding.bottom = 20, padding.top = 120, 
+  border.bottom = fp_border())
+
+alert = fp_text(shading.color = "transparent", bold = TRUE, color = "red")
+underline = fp_text(underlined = TRUE)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+block_section(sec_pr)
+```
+
+# Introduction
+
+
+
+# Materials
+
+# Methods
+
+The processing steps applied to the size-frequency data managed at the IOTC Secretariat include ([IOTC-2020-WPDCS16-16](https://iotc.org/documents/WPDCS/16/16)). The 
+
+1- Removal of all sizes reported with an interval larger than the maximum interval value ([Size measurement features](#features))
+
+2- Conversion of all sizes into standard measurement type with reference to conversion methods available in [`r TITLE_CONVERSION_DOCUMENT`](`r URL_CONVERSION_DOCUMENT`)
+
+3- Distribution of the number of fish reported in intervals larger than the standard interval ([Size measurement features](#features)) into equally spaced smaller intervals
+
+4- Assignment of all standard lengths smaller than the minimum standard length class to the minimum standard length class ([Size measurement features](#features))
+
+5- Removal of all standard lengths larger than the maximum standard length class
+
+6- Removal of data reported for areas not in the Indian Ocean
+
+# Results
+
+
+
+```{r FlextableFormat, echo = FALSE, eval = FALSE}
+## Libraries
+library(flextable) # datasets airquality and mtcars
+library(dplyr)     # For %>% 
+library(officer)   # For fp_border()
+
+## Flextable
+TABLE_FT = 
+  airquality[1:8, ] %>% 
+  flextable::flextable() %>% 
+  flextable::font(part = "all", fontname = "Calibri") %>% 
+  flextable::fontsize(part = "all", size = 9) %>% 
+  flextable::align(part = "header", align = "center") %>% 
+  flextable::bold(part = "header") %>% 
+  flextable::bg(part = "header", bg = "gray") %>% 
+  flextable::colformat_num(j = 1, big.mark = "") %>% 
+  flextable::colformat_double(j = 2:5, digits = 0, big.mark = ",") %>%
+  flextable::border_inner(border = fp_border()) %>%
+  flextable::border_outer(border = fp_border(width = 2)) %>% 
+  flextable::autofit()
+```
+
+\pagebreak
+
+# Appendices
+
+## Appendix I: Example of appendix with table specific numbering
+
+```{r}
+block_caption("This is the caption of a supplementary table", 
+              style = "Table Caption", 
+              autonum = run_autonum(seq_id = 'tab', 
+                                    bkm = "App1", 
+                                    start_at = 1, 
+                                    pre_label = "Tab. A", 
+                                    prop = fp_text_lite(bold = TRUE))
+)
+
+flextable(head(mtcars[, 1:6]))
+```
+
+```{r, echo = FALSE, eval = TRUE}
+block_section(sec_pr)
+```

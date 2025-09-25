@@ -12,7 +12,7 @@ write_to_IOTDB = function(connection, table_name, SF_data) {
   
   SF_data_updated = copy(SF_data)
   # Remove fields
-  SF_data_updated[, `:=` (AVG_WEIGHT = NULL, RAISE_CODE = NULL)]
+  SF_data_updated[, `:=` (RAISE_CODE = NULL, REPORTING_QUALITY = NULL, AVG_WEIGHT = NULL)]
   
   column_names = append(
     c("Fleet",
