@@ -7,6 +7,9 @@ output:
   officedown::rdocx_document:
     reference_docx: "../templates/rdoc_template.docx"
 reference_num: true
+csl: ../templates/iotc.csl
+bibliography: ./SF.bib
+link-citations: yes
 ---
 
 ```{r setup, include = FALSE}
@@ -14,7 +17,6 @@ knitr::opts_chunk$set(echo = FALSE,
                       tab.cap.pre = "Tab. ", 
                       tab.cap.sep = ". ", 
                       tab.cap.style ="Table Caption", 
-                      #                      tab.cap.fp_text = officer::fp_text_lite(italic = TRUE, bold = TRUE), 
                       fig.cap = TRUE, 
                       fig.cap.pre = "Fig. ", 
                       fig.cap.sep = ". ", 
@@ -41,8 +43,8 @@ bl_header_with_logo = function(txt, position) {
 }
 
 sec_pr = prop_section(
-  header_first = bl_header_with_logo("IOTC-DATASETS-SF", "right"),
-  header_default = bl_header_no_logo("IOTC-DATASETS-SF", "right")
+  header_first = bl_header_with_logo("IOTC-2025-WPTT27(AS)-INF02", "right"),
+  header_default = bl_header_no_logo("IOTC-2025-WPTT27(AS)-INF02", "right")
 )
 ```
 
@@ -62,29 +64,76 @@ block_section(sec_pr)
 
 # Introduction
 
-
+The present document provides a description of the size-frequency datasets for `r tolower(CL_SPECIES[SPECIES_CODE == CODE_SPECIES_SELECTED, SPECIES])` (_`r CL_SPECIES[SPECIES_CODE == CODE_SPECIES_SELECTED, SPECIES_SCIENTIFIC]`_) maintained by the IOTC Secretariat, encompassing the period `r paste0(START_YEAR, "-", END_YEAR)` and updated to October 2025. The overarching objective of this paper is to describe the sequential processing steps through which the size-frequency data submitted by CPCs are transformed into inputs for the stock assessment model. In addition, the size datasets are compared with those used in the previous assessment conducted in 2022 [@Fu2022].
 
 # Materials
 
+## Data Reporting Obligations
+
+Size–frequency data describe the distribution of the number of individuals in a catch or catch sample, classified into predefined size intervals. Within the IOTC framework, these data are to be collected for the 16 species under the Commission's mandate and for the most commonly caught elasmobranch species, provided that the taxa are identified to species level, as specified in Resolution [15/01](https://www.iotc.org/cmm/resolution-1501-recording-catch-and-effort-data-fishing-vessels-iotc-area-competence) (see also the ['Species of interest'](https://data.iotc.org/reference/latest/guidelines/#Species_of_interest) section of the IOTC Data Reporting Guidelines).
+
+Since the establishment of the IOTC Secretariat in 1998, IOTC Contracting Parties and Cooperating Non-Contracting Parties ([CPCs](https://iotc.org/about-iotc/structure-commission)) have been required to report monthly estimates of size frequencies of catches, both retained and discarded, disaggregated by fishing fleet, fishery, 5&deg; longitude-latitude grid, and species (Resolution [98/01](https://iotc.org/cmm/resolution-9801-mandatory-statistical-requirements-iotc-members)). These data may be collected on land by enumerators during unloading and transhipment operations, or at sea by fishers following well-defined random sampling schemes. For longline fisheries, size data may also be obtained by scientific observers under the Regional Observer Scheme (ROS), provided that observer programme coverage reaches at least 5% of fishing operations (Resolution [15/02](https://www.iotc.org/cmm/resolution-1502-mandatory-statistical-reporting-requirements-iotc-contracting-parties-and)).
+
+Sampling coverage should be set at a minimum of one fish measured per metric tonne of catch, by fishery and species, with samples representative of all periods and areas fished. Raised estimates of the size samples must also be submitted to the Secretariat to account for potential bias resulting from unrepresentative sampling and the spatio-temporal variability of fishing operations. Documentation describing the sampling and raising procedures must be provided for each fishery and species, in accordance with Resolution [15/02](https://www.iotc.org/cmm/resolution-1502-mandatory-statistical-reporting-requirements-iotc-contracting-parties-and).
+
+# Data Collection
+
+The IOTC recommends the use of straight length measurements, taken with a calliper or measuring board, in preference to fish weights. The appropriate measurement varies across species groups: (i) lower-jaw fork length for billfishes; (ii) upper-jaw fork length for tunas, mackerels, sharks, and other bycatch fish species with forked or lunate tails; (iii) standard length for bycatch fish species with rounded or truncate tails; and (iv) disc width for rays. The Secretariat further recommends the use of standardised length intervals for IOTC species and the most commonly caught sharks, together with maximum standard length intervals and ranges of valid values.
+
+For `r tolower(CL_SPECIES[SPECIES_CODE == CODE_SPECIES_SELECTED, SPECIES])`, the following morphometric standards are considered:
+
+- Measurement code: `r METADATA_SIZE_STANDARDS_TABLE$"Measurement code"`
+- Measurement unit: `r METADATA_SIZE_STANDARDS_TABLE$"Measurement unit"`
+- Default size measurement interval: `r METADATA_SIZE_STANDARDS_TABLE$"Default measurement interval"`
+- Maximum size measurement interval: `r METADATA_SIZE_STANDARDS_TABLE$"Maximum measurement interval"`
+- Minimum standard size: `r METADATA_SIZE_STANDARDS_TABLE$"Minimum size"`
+- Maximum standard size: `r METADATA_SIZE_STANDARDS_TABLE$"Maximum size"`.
+
+## Data Submissions
+
+The Secretariat has developed specific template forms for reporting size–frequency data to the IOTC. The forms include all mandatory metadata, data fields, and information on IOTC formats and standard code lists (see IOTC Form [4SF](https://data.iotc.org/reference/latest/forms/index.html#Form_4SF)). For each stratum, data coverage-that is, the percentage of catch or effort sampled must be reported to assess the representativeness and quality of the estimates.
+
+## Morphometric Conversions
+
+Despite recommendations, size data received at the data 
+
+he code list for size measurements is available from the 'biology' domain of the IOTC Reference Data Catalogue ([Size Measurements](https://data.iotc.org/reference/latest/domain/biology/#allMeasurements)).
+
 # Methods
 
-The processing steps applied to the size-frequency data managed at the IOTC Secretariat include ([IOTC-2020-WPDCS16-16](https://iotc.org/documents/WPDCS/16/16)). The 
+## Data Checks
 
-1- Removal of all sizes reported with an interval larger than the maximum interval value ([Size measurement features](#features))
+Standard controls and checks are performed to ensure that metadata and data submitted to the Secretariat are consistent and include all mandatory fields (e.g., dimensions of the strata, etc.). The controls may require the submission of revised data from CPCs if the original ones are found to be incomplete.
 
-2- Conversion of all sizes into standard measurement type with reference to conversion methods available in [`r TITLE_CONVERSION_DOCUMENT`](`r URL_CONVERSION_DOCUMENT`)
+## Data Processing
 
-3- Distribution of the number of fish reported in intervals larger than the standard interval ([Size measurement features](#features)) into equally spaced smaller intervals
+The processing steps [@IOTC2020_SF].
 
-4- Assignment of all standard lengths smaller than the minimum standard length class to the minimum standard length class ([Size measurement features](#features))
+- Filtering on size intervals: Removal of all sizes reported with an interval larger than the maximum interval value
 
-5- Removal of all standard lengths larger than the maximum standard length class
+- Conversion of all sizes into fork length
 
-6- Removal of data reported for areas not in the Indian Ocean
+- Distribution within standard size intervals: Distribution of the number of fish reported in intervals larger than the standard interval into equally spaced smaller intervals
+
+- Small sizes: Assignment of all standard lengths smaller than the minimum standard length class to the minimum standard length class
+
+- Large Size: Removal of all standard lengths larger than the maximum standard length class
+
+- Removal of data reported for areas not in the Indian Ocean
+ 
+## Data Allocation by Area
 
 # Results
 
+SF_MissingForkLengthConversion[, .(FISH_COUNT = sum(FISH_COUNT)), keyby = .(RAISE_CODE, RAISING, MEASURE_TYPE_CODE, MEASURE_TYPE)]
 
+SF_MissingRoundWeightConversion[, .(FISH_COUNT = sum(FISH_COUNT)), keyby = .(RAISE_CODE, RAISING, MEASURE_TYPE_CODE, MEASURE_TYPE)]
+
+SF_FishLargerThanMaximum[, .(FISH_COUNT = sum(FISH_COUNT)), keyby = .(FLEET_CODE, GEAR_CODE)]
+
+SF_OutsideIndianOcean[, .(FISH_COUNT = sum(FISH_COUNT)), keyby = .(RAISE_CODE, RAISING, MEASURE_TYPE_CODE, MEASURE_TYPE)]
+
+SF_FishSmallerThanMinimum[, .(FISH_COUNT = sum(FISH_COUNT)), keyby = .(FLEET_CODE, GEAR_CODE, YEAR)]
 
 ```{r FlextableFormat, echo = FALSE, eval = FALSE}
 ## Libraries

@@ -1,4 +1,4 @@
-print("Initialisation of metadata...")
+l_info("Generating the content metadata...", "SF")
 
 ## Metadata from species identification
 METADATA_SIZE_STANDARDS_TABLE = CL_SIZE_REC_TABLE[, .(`Type of measurement code` = TYPE_OF_MEASUREMENT_CODE, `Measurement code` = MEASUREMENT_CODE, `Default measurement interval` = DEFAULT_MEASUREMENT_INTERVAL, `Maximum measurement interval` = MAX_MEASUREMENT_INTERVAL, `Minimum size` = MIN_MEASUREMENT, `Maximum size` = MAX_MEASUREMENT)]
@@ -16,7 +16,7 @@ names(METADATA_SIZE_STANDARDS) = c("", "")
 FL_STD_DATA_SPECIES_FOR_METADATA = copy(FL_STD_DATA_SPECIES)
 
 # Add area type codes
-FL_STD_DATA_SPECIES_FOR_METADATA = merge(FL_STD_DATA_SPECIES, CL_FISHING_GROUNDS, by.x = "FISHING_GROUND_CODE", by.y = "FISHING_GROUND_CODE")   # , all.x = TRUE - check FGC_DATASET_NOT_IN_CODE_LIST
+FL_STD_DATA_SPECIES_FOR_METADATA = merge(FL_STD_DATA_SPECIES, CL_FISHING_GROUNDS, by.x = "FISHING_GROUND_CODE", by.y = "FISHING_GROUND_CODE")
 
 # Global spatial resolution
 SPATIAL_RESOLUTION = FL_STD_DATA_SPECIES_FOR_METADATA[, .(Strata = length(unique(FISHING_GROUND_CODE)), Samples = sum(FISH_COUNT)), keyby = .(`Area type code` = AREA_TYPE_CODE, `Raise code` = RAISE_CODE)]

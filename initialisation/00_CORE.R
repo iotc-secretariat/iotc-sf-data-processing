@@ -1,6 +1,3 @@
-# Clears the environment
-rm(list = ls())
-
 # To avoid switch to scientific notation
 options(scipen = 9999)
 
@@ -9,7 +6,7 @@ source("90_LIBS.R")
 source("91_LIBS_EXTERNAL.R")
 source("94_QUALITY_SCORING_KEY_CHART.R")
 
-  # Define species of interest
+# Define species of interest
 CODE_SPECIES_SELECTED = 'BET'
 
 # Define connection to postgres version of the code list database

@@ -1,3 +1,5 @@
+l_info("Describing the processing steps...", "SF")
+
 # Processing Steps ####
 
 # Official morphometric relationships
@@ -27,8 +29,6 @@ lengthConversionToForkLengthMissing = simplifiedLengthCodesDataset[simplifiedLen
 
 SF_MissingForkLengthConversion = SF_RAW_DATA_SPECIES[MEASURE_TYPE_CODE %in% lengthConversionToForkLengthMissing]
 
-SF_MissingForkLengthConversion[, .(FISH_COUNT = sum(FISH_COUNT)), keyby = .(RAISE_CODE, RAISING, MEASURE_TYPE_CODE, MEASURE_TYPE)]
-
 ### 3- Missing length-weight conversion equations ####
 
 weightCodesDataset = sort(unique(SF_RAW_DATA_SPECIES[!MEASURE_TYPE_CODE %in% lengthCodesDataset, MEASURE_TYPE_CODE]))
@@ -39,22 +39,16 @@ weightConversionToRoundWeightMissing = weightCodesDataset[weightCodesDataset != 
 
 SF_MissingRoundWeightConversion = SF_RAW_DATA_SPECIES[MEASURE_TYPE_CODE %in% weightConversionToRoundWeightMissing]
 
-SF_MissingRoundWeightConversion[, .(FISH_COUNT = sum(FISH_COUNT)), keyby = .(RAISE_CODE, RAISING, MEASURE_TYPE_CODE, MEASURE_TYPE)]
-
 ### 4- Fish too large (after conversion to fork length)
 
 SF_FishLargerThanMaximum = FL_STD_DATA_SPECIES[(CLASS_LOW + CLASS_HIGH)/2 > CL_SIZE_REC_TABLE$MAX_MEASUREMENT]
 
-SF_FishLargerThanMaximum[, .(FISH_COUNT = sum(FISH_COUNT)), keyby = .(FLEET_CODE, GEAR_CODE)]
-
-### Fish samples reported for grids outside the Indian Ocean ####
+### 5- Fish samples reported for grids outside the Indian Ocean ####
 
 SF_OutsideIndianOcean = SF_RAW_DATA_SPECIES[FISHING_GROUND_CODE %in% REG_GRIDS_NOT_IN_IO$FISHING_GROUND_CODE]
 
-SF_OutsideIndianOcean[, .(FISH_COUNT = sum(FISH_COUNT)), keyby = .(RAISE_CODE, RAISING, MEASURE_TYPE_CODE, MEASURE_TYPE)]
-
-## Fish samples reallocated to lower size class ####
+## 6- Fish samples reallocated to lower size class ####
 
 SF_FishSmallerThanMinimum = SF_RAW_DATA_SPECIES[MEASURE_TYPE_CODE %in% c("FL", "FLB", "FLC", "FLCT", "FLUT") & (CLASS_LOW + CLASS_HIGH)/2 < CL_SIZE_REC_TABLE$MIN_MEASUREMENT]
 
-SF_FishSmallerThanMinimum[, .(FISH_COUNT = sum(FISH_COUNT)), keyby = .(FLEET_CODE, GEAR_CODE, YEAR)]
+l_info("Processing intermediate files produced!", "SF")

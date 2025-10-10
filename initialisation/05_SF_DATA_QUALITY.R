@@ -1,5 +1,7 @@
+l_info("Adding reporting quality to the data...", "SF")
+
 # Extract reporting quality
-FL_REPORTING_QUALITY_SPECIES = data_quality(species_code = CODE_SPECIES_SELECTED)
+FL_REPORTING_QUALITY_SPECIES = data_quality(species_code = CODE_SPECIES_SELECTED, year_from = START_YEAR, year_to = END_YEAR)
 
 # Add reporting quality to the data in wide format
 FL_STD_DATA_SPECIES_TABLE = merge(FL_STD_DATA_SPECIES_TABLE, FL_REPORTING_QUALITY_SPECIES[, .(FLEET_CODE, YEAR, GEAR_CODE, SPECIES_CODE, REPORTING_QUALITY = SF)], by.x = c("YEAR", "FLEET_CODE", "GEAR_CODE", "SPECIES_CODE"), by.y = c("YEAR", "FLEET_CODE", "GEAR_CODE", "SPECIES_CODE"), all.x = TRUE) 
@@ -80,3 +82,4 @@ FL_STD_DATA_SPECIES[is.na(REPORTING_QUALITY), REPORTING_QUALITY := "0"]
 # Checking quality scores for non regular area grids
 # unique(FL_STD_DATA_SPECIES[FISHING_GROUND_CODE %in% LIST_NON_STANDARD_AREAS, .(REPORTING_QUALITY), keyby = .(FLEET_CODE, GEAR_CODE, SCHOOL_TYPE_CODE, FISHING_GROUND_CODE)])
 
+l_info("Reporting quality added to the data!", "SF")

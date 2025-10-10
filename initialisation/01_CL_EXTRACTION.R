@@ -16,18 +16,18 @@ CL_SIZE_REC = data.frame(as.data.table(t(CL_SIZE_REC), keep.rownames = TRUE))
 names(CL_SIZE_REC) = c("", "")
 
 # Full code lists
-CL_SPECIES = query(C_REFERENCE_DATA, query = paste0("SELECT CODE AS SPECIES_CODE, NAME_EN AS SPECIES FROM refs_biology.SPECIES WHERE CODE = \'", CODE_SPECIES_SELECTED, "\';")) %>% {setnames(., new = toupper(names(.))); .}
+CL_SPECIES = query(C_REFERENCE_DATA, query = paste0("SELECT code AS species_code, name_en AS species, name_scientific AS species_scientific FROM refs_biology.species WHERE CODE = \'", CODE_SPECIES_SELECTED, "\';")) %>% {setnames(., new = toupper(names(.))); .}
 
-CL_FLEETS = query(C_REFERENCE_DATA, query = "SELECT DISTINCT FLEET_CODE, NAME_EN, NAME_FR FROM refs_legacy.FLEETS;") %>% {setnames(., new = toupper(names(.))); .}
+CL_FLEETS = query(C_REFERENCE_DATA, query = "SELECT DISTINCT fleet_code, name_en, name_fr FROM refs_legacy.fleets;") %>% {setnames(., new = toupper(names(.))); .}
 
-CL_FISHING_GROUNDS = query(C_REFERENCE_DATA, query = "SELECT CODE AS FISHING_GROUND_CODE, LABEL_EN AS DESCRIPTION_EN, LABEL_FR AS DESCRIPTION_FR, AREA_TYPE_CODE FROM refs_gis.AREAS") %>% {setnames(., new = toupper(names(.))); .}
+CL_FISHING_GROUNDS = query(C_REFERENCE_DATA, query = "SELECT code AS fishing_ground_code, label_en AS description_en, label_fr AS description_fr, area_type_code FROM refs_gis.areas") %>% {setnames(., new = toupper(names(.))); .}
 
-CL_GEARS = query(C_REFERENCE_DATA, query = "SELECT DISTINCT CODE AS GEAR_CODE, NAME_EN, NAME_FR FROM refs_legacy.GEARS;") %>% {setnames(., new = toupper(names(.))); .}
+CL_GEARS = query(C_REFERENCE_DATA, query = "SELECT DISTINCT code AS gear_code, NAME_EN, NAME_FR FROM refs_legacy.GEARS;") %>% {setnames(., new = toupper(names(.))); .}
 
-CL_SCHOOL_TYPES = query(C_REFERENCE_DATA, query = "SELECT DISTINCT CODE AS CATCH_SCHOOL_TYPE_CODE, NAME_EN, NAME_FR FROM refs_legacy.SCHOOL_TYPES;") %>% {setnames(., new = toupper(names(.))); .}
+CL_SCHOOL_TYPES = query(C_REFERENCE_DATA, query = "SELECT DISTINCT code AS catch_school_type_code, name_en, name_fr FROM refs_legacy.SCHOOL_TYPES;") %>% {setnames(., new = toupper(names(.))); .}
 
-CL_RAISINGS = query(C_REFERENCE_DATA, query = "SELECT DISTINCT CODE AS RAISING_CODE, NAME_EN, NAME_FR FROM refs_legacy.RAISINGS;") %>% {setnames(., new = toupper(names(.))); .}
+CL_RAISINGS = query(C_REFERENCE_DATA, query = "SELECT DISTINCT code AS raising_code, name_en, name_fr FROM refs_legacy.raisings;") %>% {setnames(., new = toupper(names(.))); .}
 
-CL_MEASUREMENTS = query(C_REFERENCE_DATA, query = "SELECT DISTINCT CODE AS MEASURE_TYPE_CODE, NAME_EN, DESCRIPTION_EN, NAME_FR, DESCRIPTION_FR FROM refs_biology.MEASUREMENTS WHERE CODE IN ('FL', 'LJ');") %>% {setnames(., new = toupper(names(.))); .}
+CL_MEASUREMENTS = query(C_REFERENCE_DATA, query = "SELECT DISTINCT code AS measure_type_code, name_en, description_en, name_fr, description_fr FROM refs_biology.measurements WHERE CODE IN ('FL', 'LJ');") %>% {setnames(., new = toupper(names(.))); .}
 
 l_info("Code lists extracted!")

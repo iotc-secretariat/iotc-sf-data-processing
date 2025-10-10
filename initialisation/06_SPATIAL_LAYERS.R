@@ -1,3 +1,5 @@
+l_info("Reading the spatial layers", prefix = "CL")
+
 # COUNTRIES ####
 if(!file.exists("../inputs/shapes/COUNTRY_AREAS_1.0.0_SHP.zip")){
   download.file("https://data.iotc.org/reference/latest/domain/admin/shapefiles/COUNTRY_AREAS_1.0.0_SHP.zip", destfile = "../inputs/shapes/COUNTRY_AREAS_1.0.0_SHP.zip", mode = "wb")
@@ -25,18 +27,18 @@ IOTC_5x5_GRID_SF = st_read("../inputs/shapes/IO_GRIDS_05x05_1.0.0.shp", crs = st
 # LIST_SF_NON_STANDARD_AREAS derived in 02_SF_DATA_EXTRACTION.R
 SF_NON_STANDARD_AREAS =
   query(
-    DB_IOTC_MASTER(), paste0("
+    C_REFERENCE_DATA, paste0("
     SELECT
-      CODE,
-      NAME_EN,
-      AREA_GEOMETRY.STAsText() AS WKT_GEOM
+      code,
+      name_en,
+      ST_AsText(area_geometry) AS wkt_geom
     FROM
-      refs_gis.AREAS
+      refs_gis.areas
     WHERE
-      CODE IN ('", paste(LIST_NON_STANDARD_AREAS, collapse = "', '"), "')"
+      code IN ('", paste(LIST_NON_STANDARD_AREAS, collapse = "', '"), "')"
     ))
 
-SF_NON_STANDARD_AREAS_SF = st_as_sf(SF_NON_STANDARD_AREAS, wkt = "WKT_GEOM", crs = st_crs(4326))
+SF_NON_STANDARD_AREAS_SF = st_as_sf(SF_NON_STANDARD_AREAS, wkt = "wkt_geom", crs = st_crs(4326))
 
 # Spatial layer of 1x1 grids in the size dataset and not in the Indian Ocean
 # Converted to 5x5 grids for visualisation purpose
@@ -55,6 +57,7 @@ SF_NON_STANDARD_AREAS_SF = st_as_sf(SF_NON_STANDARD_AREAS, wkt = "WKT_GEOM", crs
 # 
 # SF_1x1_GRIDS_NOT_IN_IO_SF = st_as_sf(SF_1x1_GRIDS_NOT_IN_IO, wkt = "WKT_GEOM", crs = st_crs(4326))
 
+l_info("Spatial layers loaded for analysis and mapping", prefix = "CL")
 
 
 

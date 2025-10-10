@@ -6,6 +6,8 @@ setwd(here())
 
 # Select the species
 CODE_SPECIES_SELECTED = "BET"
+START_YEAR            = 1950
+END_YEAR              = 2024
 
 # Select the view in IOTDB
 #VIEW = ifelse(CODE_SPECIES_SELECTED %in% c("BLT", "FRI", "KAW", "LOT", "COM", "GUT"), "vwSFNER", paste0("dbo.vwSF", CODE_SPECIES_SELECTED))
@@ -46,10 +48,10 @@ render("./rmd/SF_METADATA.Rmd",
        params = list(dynamictitle = paste("METADATA FOR THE STANDARDISED SIZE-FREQUENCY DATA FOR ", toupper(SPECIES_SELECTED))))
 
 # Add HTML in archive
-zip::zip_append(paste0("./outputs/", TITLE, ".zip"), files = paste0("./outputs/html/METADATA_", TITLE, ".html"), mode = "cherry-pick")
+zip::zip_append(paste0("./outputs/data/", TITLE, ".zip"), files = paste0("./outputs/html/METADATA_", TITLE, ".html"), mode = "cherry-pick")
 
 # Generic report
 render("./rmd/SF_DESCRIPTION.Rmd", output_file = paste0("DESCRIPTION_", TITLE, ".docx"), 
        output_dir = "./outputs/docx/",
-       params = list(dynamictitle = paste("Standardisation of the size-frequency data for ", SPECIES_SELECTED))
+       params = list(dynamictitle = paste0("Standardisation of the size-frequency data for ", SPECIES_SELECTED, " ", START_YEAR, "--", END_YEAR))
 )

@@ -4,17 +4,10 @@ l_info("Extracting the raw size-frequency data...")
 LEGACY_NEW_IRREGULAR_AREAS_MAPPING = fread("../inputs/mappings/MAPPING_SF_IRREGULAR_AREAS_IOTDB_MASTER.csv", colClasses = c("character", "character"))
 
 # Extract the raw size data
-SF_RAW_DATA_SPECIES = SF_raw(species_code = CODE_SPECIES_SELECTED)
+SF_RAW_DATA_SPECIES = SF_raw(species_code = CODE_SPECIES_SELECTED, years = START_YEAR:END_YEAR)
 
-# Temp fix for tunas caught in Australian longline fisheries
-# To do in the database
-SF_RAW_DATA_SPECIES[SPECIES_CODE %in% c("BET", "YFT") & MEASURE_TYPE_CODE == "GIL", `:=` (MEASURE_TYPE_CODE = "GGT", MEASURE_TYPE = "Gilled and gutted (bill is off for billfish)")]
-
-# Temp fix to remove some fish without gear code reported for EUESP
-SF_RAW_DATA_SPECIES = SF_RAW_DATA_SPECIES[!(FLEET_CODE == "EUESP" & is.na(GEAR_CODE))]
-
-# Temp fix for tunas caught in Seychelles
-# SF_RAW_DATA_SPECIES[FLEET_CODE == "SYC" & GEAR_CODE == "PS", `:=` (MEASURE_TYPE_CODE = "FL", MEASURE_TYPE = "Fork length (lower jaw fork length for BIL)")]
+# Temp fix for tunas caught in Seychelles (from FLUT to FL)
+SF_RAW_DATA_SPECIES[FLEET_CODE == "SYC" & GEAR_CODE == "PS" & MEASURE_TYPE_CODE == "FLUT", `:=` (MEASURE_TYPE_CODE = "FL", MEASURE_TYPE = "Fork length (lower jaw fork length for BIL)")]
 
 #SF_RAW_DATA_SPECIES[FLEET_CODE == "SYC" & GEAR_CODE %in% c("LLCO", "ELL", "LL", "FLL"), `:=` (MEASURE_TYPE_CODE = "FLUT", MEASURE_TYPE = "Fork length (unconverted tape measure lengths)")]
 

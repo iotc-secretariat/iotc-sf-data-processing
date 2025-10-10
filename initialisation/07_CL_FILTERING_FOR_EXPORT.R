@@ -1,4 +1,4 @@
-print("Extract code lists for SF data...")
+l_info("Filtering the code lists in the data...", "SF")
 
 # Code lists restricted to the standardised dataset
 CL_FLEETS_FL_DATA = CL_FLEETS[FLEET_CODE %in% unique(FL_STD_DATA_SPECIES$FLEET_CODE)]
@@ -21,4 +21,4 @@ write.csv(CL_SCHOOL_TYPES_FL_DATA, "../outputs/codelists/CL_SCHOOL_TYPES.csv", r
 write.csv(CL_RAISINGS_FL_DATA, "../outputs/codelists/CL_RAISINGS.csv", row.names = FALSE)
 write.csv(CL_MEASUREMENTS_FL_DATA, "../outputs/codelists/CL_MEASUREMENTS.csv", row.names = FALSE)
 
-print("SF data code lists extracted!")
+l_info("Code lists in the data filtered!", "SF")
