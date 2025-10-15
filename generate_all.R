@@ -69,7 +69,7 @@ render("./rmd/RC_METADATA.Rmd",
        output_format = "html_document2",
        output_file = paste0("METADATA_", TITLE, ".html"), 
        output_dir = "./outputs/html/",
-       params = list(dynamictitle = paste("METADATA FOR THE RETAINED DATA ")))
+       params = list(dynamictitle = paste("Metadata for Retained Catch Data")))
 
 
 

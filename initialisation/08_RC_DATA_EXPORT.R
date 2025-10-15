@@ -1,13 +1,14 @@
 #SPECIES_SELECTED = CL_SPECIES[SPECIES_CODE == CODE_SPECIES_SELECTED, SPECIES]
-SPECIES_SELECTED = "Bigeye tuna"
+#SPECIES_SELECTED = "Bigeye tuna"
 
 #TITLE = paste("IOTC-DATASETS-RC", CODE_SPECIES_SELECTED, min(FL_STD_DATA_SPECIES$YEAR), max(FL_STD_DATA_SPECIES$YEAR), sep = "-")
 
-TITLE = paste("IOTC-DATASETS-RC", CODE_SPECIES_SELECTED, START_YEAR, END_YEAR, sep = "-")
+#TITLE = paste("IOTC-DATASETS-RC", CODE_SPECIES_SELECTED, START_YEAR, END_YEAR, sep = "-")
+TITLE = paste0("IOTC-DATASETS-", Sys.Date(), "-RC-BSE_1950-2024")
 
 # Extract the data
-RC_BSE = NC_est(years = START_YEAR:END_YEAR, species_codes = CODE_SPECIES_SELECTED, factorize_results = TRUE)[, .(CATCH = sum(CATCH)), keyby = .(YEAR, FLEET_CODE, FLEET, FISHERY_TYPE_CODE, FISHERY_TYPE, FISHERY_GROUP_CODE, FISHERY_GROUP, GEAR_CODE, GEAR, FISHERY_CODE, FISHERY, FISHING_GROUND_CODE, FISHING_GROUND, SPECIES_CATEGORY, SPECIES_CATEGORY_CODE, SPECIES_CODE, SPECIES, SPECIES_SCIENTIFIC, IS_IOTC_SPECIES, IS_SPECIES_AGGREGATE, IS_SSI, FATE_TYPE_CODE, FATE_TYPE, FATE_CODE, FATE, CATCH_UNIT_CODE)]
-                                                                                                          
+RC_BSE = NC_est(years = START_YEAR:END_YEAR,  factorize_results = TRUE)[, .(CATCH = sum(CATCH)), keyby = .(YEAR, FLEET_CODE, FLEET, FISHERY_TYPE_CODE, FISHERY_TYPE, FISHERY_GROUP_CODE, FISHERY_GROUP, GEAR_CODE, GEAR, FISHERY_CODE, FISHERY, FISHING_GROUND_CODE, FISHING_GROUND, SPECIES_CATEGORY, SPECIES_CATEGORY_CODE, SPECIES_CODE, SPECIES, SPECIES_SCIENTIFIC, IS_IOTC_SPECIES, IS_SPECIES_AGGREGATE, IS_SSI, FATE_TYPE_CODE, FATE_TYPE, FATE_CODE, FATE, CATCH_UNIT_CODE)]
+                                                                                            
 # Export the file
 write.csv(RC_BSE, paste0("../outputs/data/", TITLE, ".csv"))
 
@@ -61,7 +62,9 @@ setColWidths(RC_BSE_DATA, sheet = "field_description", cols = 1:ncol(FIELDS_RC_B
 saveWorkbook(RC_BSE_DATA, paste0("../outputs/data/", TITLE, "-DDD.xlsx"), overwrite = TRUE)
 
 # Zip the files
-zip::zip(zipfile = paste0("../outputs/data/", TITLE, ".zip"), files = c(paste0("../outputs/data/", TITLE, ".csv"), paste0("../outputs/data/", TITLE, "-DDD.xlsx")), mode = "cherry-pick", recurse = FALSE)
+#zip::zip(zipfile = paste0("../outputs/data/", TITLE, ".zip"), files = c(paste0("../outputs/data/", TITLE, ".csv"), paste0("../outputs/data/", TITLE, "-DDD.xlsx")), mode = "cherry-pick", recurse = FALSE)
+
+zip::zip(zipfile = paste0("../outputs/data/", TITLE, ".zip"), files = c(paste0("../outputs/data/", TITLE, ".csv")), mode = "cherry-pick", recurse = FALSE)
 
 # Zipped file size in KB
 RC_BSE_DATA_ZIP_SIZE = round(file.size(paste0("../outputs/data/", TITLE, ".zip"))/1e3)

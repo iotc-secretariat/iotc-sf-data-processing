@@ -79,13 +79,13 @@ The breakdown by species or gear is performed using additional sources of inform
 - **Keywords**: `r SPECIES_SELECTED`, IOTC species, catch, tuna fisheries
 - **Type**: Tabular file
 - **Format**: CSV
-- **Size**: `r prettyNum(RC_BSE_DATA_SIZE, big.mark = ",")` KB for compressed dataset and `r prettyNum(RC_BSE_DATA_ZIP_SIZE, big.mark = ",")` KB for original dataset with code lists
+- **Size**: `r prettyNum(RC_BSE_DATA_ZIP_SIZE, big.mark = ",")` KB for compressed dataset and `r prettyNum(RC_BSE_DATA_SIZE, big.mark = ",")` KB for original dataset
 - **Structures**: `r prettyNum(nrow(RC_BSE), big.mark = ",")` rows x `r prettyNum(ncol(RC_BSE), big.mark = ",")` columns
 - **Taxonomic standard**: [ASFIS](https://data.apps.fao.org/catalog/dataset/cwp-asfis)
 - **Geographic description**: Fishing areas within the Indian Ocean
 - **Date standard**: [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
 <!-- - **Data quality**: [IOTC reporting quality scoring](#RQS) -->
-- **Update frequency**: At least twice per year
+- **Update frequency**: According to data revisions and updates
 - **Metadata production date**: `r format(Sys.time(), '%d %B %Y')`
 - **Source**: [IOTC](https://www.iotc.org/)
 - **Contact**: [IOTC-Statistics@fao.org](mailto:IOTC-Statistics@fao.org)
