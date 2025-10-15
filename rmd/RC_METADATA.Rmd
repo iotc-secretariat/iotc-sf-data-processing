@@ -1,0 +1,126 @@
+---
+params:
+    dynamictitle: "mytitledefinedintheparamslistofrender"
+title: "`r params$dynamictitle`"
+author: "Author: [IOTC Secretariat](mailto:IOTC-Secretariat@fao.org)" 
+output:
+  html_document2:
+    css: "../templates/html_template.css"
+    number_sections: FALSE
+    toc: yes
+    toc_float:
+      collapsed: FALSE
+      smooth_scroll: FALSE
+  word_document2:
+    reference_docx: "../templates/doc_template.docx"
+    number_sections: FALSE
+---
+  
+```{r general_options, echo = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  tidy = TRUE,
+  tidy.opts = list(width.cutoff = 60),
+  size = 'small',
+  
+  tab.cap.pre = "Table ",
+  tab.cap.sep = ". ",
+  tab.cap.style ='Table Caption',
+  
+  fig.cap.style = "Caption label",
+  fig.cap.pre = "Fig. ", 
+  fig.cap.sep = ". ",
+  
+  fig.width   = 8,
+  fig.height  = 4.5
+)
+
+knit_hooks$set(
+  inline = function(x) {
+    prettyNum(x, big.mark = "")
+  }
+)
+```
+
+```{r OutputTables, echo = FALSE}
+out_dt = function(data, name) {
+  datatable(data, 
+            rownames = FALSE, 
+            filter = "bottom", 
+            extensions = "Buttons", 
+            options = 
+              list(dom = "Bfrtip", 
+                   buttons = list(
+                     list(
+                       extend = "csv", 
+                       filename = name
+                     )
+                   )
+              )
+  )
+}
+```
+
+## Abstract
+
+This dataset corresponds to the latest version of the ‘best scientific estimates’ of annual catches in live weight equivalent for the 16 IOTC species, aggregated by year, IOTC statistical area and fishing fleet, and fully disaggregated by species and fishing gear. Data are reported by calendar year and extend back to the 1950s, when industrial longlining started in the Indian Ocean. The origin of the data are from the [IOTC Contracting Parties and Cooperating Non-Contracting Parties](https://iotc.org/about-iotc/structure-commission) (CPCs) as per IOTC data requirements ([IOTC Resolution 15/02](https://www.iotc.org/cmm/resolution-1502-mandatory-statistical-reporting-requirements-iotc-contracting-parties-and)), submitted on an annual basis, mostly with [IOTC Form 1RC](https://data.iotc.org/reference/latest/forms/#Form_1RC), and curated by the Secretariat for dissemination prior to the IOTC working groups and other data-users.
+
+The breakdown by species or gear is performed by using alternate sources of information available to the Secretariat such as statistical publications, fishery bulletins and other sources of information (e.g. historical catches and proxy fleets and gears).
+
+Data might differ from the information originally provided by CPCs because, under certain circumstances, the Secretariat can also perform a preliminary re-estimation of both species and gear composition for some strata for which known issues exist in terms of data collection and reporting procedures at national level. The applied re-estimation procedures are performed in agreement with the IOTC Scientific Committee and might be subject to future revisions.
+
+## Global attributes
+
+- **Title**: Best scientific estimates of retained catch by IOTC species, gear and vessel flag reporting country for 1950-2024
+- **Summary**: Curated dataset providing detailed information on the tuna catches in the Indian Ocean
+- **Context of development**: Management of tuna and tuna-like species under IOTC mandate
+- **Data origin**: Retained catch data collected on land or at sea by national institutions and the fishing industry, with some data having been previously extrapolated to represent the broader fishery
+- **Lineage**: Formatting, filtering
+- **Keywords**: IOTC species, catch, tuna fisheries
+- **Type**: Tabular files
+- **Format**: CSV
+- **Size**: 1,033 KB for compressed dataset and 23,531 KB for original dataset
+- **Structures**: 75,970 rows x 37 columns
+- **Taxonomic standard**: [ASFIS](https://data.apps.fao.org/catalog/dataset/cwp-asfis)
+- **Geographic description**: Fishing areas within the Indian Ocean
+- **Date standard**: [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
+- **Data quality**: [IOTC reporting quality scoring](#RQS)
+- **Update frequency**: At least twice per year
+- **Metadata production date**: `r format(Sys.time(), '%d %B %Y')`
+- **Source**: IOTC
+- **Contact**: [IOTC-Statistics@fao.org](mailto:IOTC-Statistics@fao.org)
+- **Credit**: IOTC Secretariat
+- **Associated rights**: Public-domain data requiring source acknowledgement
+
+## Data processing {#processing}
+
+The document [IOTC-2020-WPDCS16-16](https://iotc.org/documents/WPDCS/16/16) describes the processing steps applied to the size-frequency data managed at the IOTC Secretariat:
+
+
+## Dataset fields
+
+```{r FieldsDefinitions}
+datatable(FIELDS_STD_RC_DATA_TABLE, escape = FALSE, rownames = FALSE, options = list(dom = 't', pageLength = nrow(FIELDS_STD_RC_DATA_TABLE)))
+```
+
+## Data contents {#contents}
+
+## Code lists
+
+### Fleets
+
+```{r FleetCodeList}
+datatable(CL_FLEETS, rownames = FALSE, options = list(dom = 't', pageLength = nrow(CL_FLEETS)))
+```
+
+### Gears
+
+```{r gearCodeList}
+datatable(CL_GEARS, rownames = FALSE, options = list(dom = 't', pageLength = nrow(CL_GEARS)))
+```
+
+### Raisings
+
+```{r RaisingCodeList}
+datatable(CL_RAISINGS, rownames = FALSE, options = list(dom = 't', pageLength = nrow(CL_RAISINGS)))
+```
