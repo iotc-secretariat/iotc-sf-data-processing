@@ -57,7 +57,6 @@ render("./rmd/SF_DESCRIPTION.Rmd", output_file = paste0("DESCRIPTION_", TITLE, "
 )
 
 # Temp RC METADATA
-
 setwd("initialisation/")
 source("90_LIBS.R")
 source("91_LIBS_EXTERNAL.R")
