@@ -29,6 +29,7 @@ source("06_SPATIAL_LAYERS.R")
 source("07_CL_FILTERING_FOR_EXPORT.R")
 source("08_FL_DATA_EXPORT.R")
 source("09_FL_METADATA_CONTENTS.R")
-source("10_IOTDB_EXPORT.R")
+source("10_WP_EXPORT.R")
+source("11_IOTDB_EXPORT.R")
 
 

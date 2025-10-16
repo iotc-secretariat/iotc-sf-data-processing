@@ -15,14 +15,14 @@ STD_SF_DATA = createWorkbook("STD_SF_DATA")
 # Read description of data fields
 
 ## Wide table format
-FIELDS_STD_SF_DATA_TABLE = data.table(read.xlsx("../inputs/FIELDS_STANDARDIZED_SF_DATA.xlsx", sheet = "WIDE FORMAT FIELDS - CURRENT", sep.names = " "))[, .(FIELD, DEFINITION, `CODE LIST NAME`, `CODE LIST URL`)]
+FIELDS_STD_SF_DATA_TABLE = data.table(read.xlsx("../inputs/FIELDS_STD_SF_DATA.xlsx", sheet = "WIDE FORMAT FIELDS - CURRENT", sep.names = " "))[, .(FIELD, DEFINITION, `CODE LIST NAME`, `CODE LIST URL`)]
 
 FIELDS_STD_SF_DATA_TABLE[!is.na(`CODE LIST NAME`), `CODE LIST` := paste0("<a href=\"", `CODE LIST URL`, "\">", `CODE LIST NAME`, "</a>")]
 
 FIELDS_STD_SF_DATA_TABLE = FIELDS_STD_SF_DATA_TABLE[, -c("CODE LIST NAME", "CODE LIST URL")]
 
 # Melted table format
-FIELDS_STD_SF_DATA = data.table(read.xlsx("../inputs/FIELDS_STANDARDIZED_SF_DATA.xlsx", sheet = "MELTED FORMAT FIELDS - CURRENT", sep.names = " "))[, .(FIELD, DEFINITION, `CODE LIST NAME`, `CODE LIST URL`)]
+FIELDS_STD_SF_DATA = data.table(read.xlsx("../inputs/FIELDS_STD_SF_DATA.xlsx", sheet = "MELTED FORMAT FIELDS - CURRENT", sep.names = " "))[, .(FIELD, DEFINITION, `CODE LIST NAME`, `CODE LIST URL`)]
 
 # Add to workbook
 addWorksheet(STD_SF_DATA, "WIDE FORMAT FIELDS")
