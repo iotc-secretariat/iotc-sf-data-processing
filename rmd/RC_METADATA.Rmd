@@ -63,11 +63,11 @@ out_dt = function(data, name) {
 
 ## Abstract
 
-This dataset corresponds to the latest version of the ‘best scientific estimates’ of annual catches in live weight equivalent for the 16 IOTC species, aggregated by year, IOTC statistical area and fishing fleet, and fully disaggregated by species and fishing gear. Data are reported by calendar year and extend back to the 1950s, when industrial longlining started in the Indian Ocean. The origin of the data are from the [IOTC Contracting Parties and Cooperating Non-Contracting Parties](https://iotc.org/about-iotc/structure-commission) (CPCs) as per IOTC data requirements ([IOTC Resolution 15/02](https://www.iotc.org/cmm/resolution-1502-mandatory-statistical-reporting-requirements-iotc-contracting-parties-and)), submitted on an annual basis, mostly with [IOTC Form 1RC](https://data.iotc.org/reference/latest/forms/#Form_1RC), and curated by the Secretariat for dissemination prior to the IOTC working groups and other data-users.
+This dataset corresponds to the latest version of the best scientific estimates of annual catches in live-weight equivalent for the 16 IOTC species, aggregated by year, IOTC statistical area and fishing fleet, and fully disaggregated by species and fishing gear. Data are reported by calendar year and extend back to the 1950s, when industrial longlining started in the Indian Ocean.
 
-The breakdown by species or gear is performed by using alternate sources of information available to the Secretariat such as statistical publications, fishery bulletins and other sources of information (e.g. historical catches and proxy fleets and gears).
+The data originate from the IOTC Contracting Parties and Cooperating Non-Contracting Parties ([CPCs]((https://iotc.org/about-iotc/structure-commission) )) as per the IOTC data requirements (Resolution [15/02](https://www.iotc.org/cmm/resolution-1502-mandatory-statistical-reporting-requirements-iotc-contracting-parties-and)). They are submitted annually, mostly using IOTC Form [1RC](https://data.iotc.org/reference/latest/forms/#Form_1RC), and curated by the Secretariat for dissemination prior to IOTC Working Parties and other scientific data users.
 
-Data might differ from the information originally provided by CPCs because, under certain circumstances, the Secretariat can also perform a preliminary re-estimation of both species and gear composition for some strata for which known issues exist in terms of data collection and reporting procedures at national level. The applied re-estimation procedures are performed in agreement with the IOTC Scientific Committee and might be subject to future revisions.
+The breakdown by species or gear is performed using additional sources of information available to the Secretariat, such as statistical publications, fishery bulletins, and other historical or proxy data. In some cases, the Secretariat may re-estimate the species or gear composition for strata affected by known data collection or reporting issues. These re-estimations are made in agreement with the IOTC Scientific Committee and may be revised in future updates.
 
 ## Global attributes
 
@@ -76,31 +76,28 @@ Data might differ from the information originally provided by CPCs because, unde
 - **Context of development**: Management of tuna and tuna-like species under IOTC mandate
 - **Data origin**: Retained catch data collected on land or at sea by national institutions and the fishing industry, with some data having been previously extrapolated to represent the broader fishery
 - **Lineage**: Formatting, filtering
-- **Keywords**: IOTC species, catch, tuna fisheries
-- **Type**: Tabular files
+- **Keywords**: `r SPECIES_SELECTED`, IOTC species, catch, tuna fisheries
+- **Type**: Tabular file
 - **Format**: CSV
-- **Size**: 1,033 KB for compressed dataset and 23,531 KB for original dataset
-- **Structures**: 75,970 rows x 37 columns
+- **Size**: `r prettyNum(RC_BSE_DATA_ZIP_SIZE, big.mark = ",")` KB for compressed dataset and `r prettyNum(RC_BSE_DATA_SIZE, big.mark = ",")` KB for original dataset
+- **Structures**: `r prettyNum(nrow(RC_BSE), big.mark = ",")` rows x `r prettyNum(ncol(RC_BSE), big.mark = ",")` columns
 - **Taxonomic standard**: [ASFIS](https://data.apps.fao.org/catalog/dataset/cwp-asfis)
 - **Geographic description**: Fishing areas within the Indian Ocean
 - **Date standard**: [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
-- **Data quality**: [IOTC reporting quality scoring](#RQS)
-- **Update frequency**: At least twice per year
+<!-- - **Data quality**: [IOTC reporting quality scoring](#RQS) -->
+- **Update frequency**: According to data revisions and updates
 - **Metadata production date**: `r format(Sys.time(), '%d %B %Y')`
-- **Source**: IOTC
+- **Source**: [IOTC](https://www.iotc.org/)
 - **Contact**: [IOTC-Statistics@fao.org](mailto:IOTC-Statistics@fao.org)
 - **Credit**: IOTC Secretariat
 - **Associated rights**: Public-domain data requiring source acknowledgement
 
 ## Data processing {#processing}
 
-The document [IOTC-2020-WPDCS16-16](https://iotc.org/documents/WPDCS/16/16) describes the processing steps applied to the size-frequency data managed at the IOTC Secretariat:
-
-
 ## Dataset fields
 
 ```{r FieldsDefinitions}
-datatable(FIELDS_STD_RC_DATA_TABLE, escape = FALSE, rownames = FALSE, options = list(dom = 't', pageLength = nrow(FIELDS_STD_RC_DATA_TABLE)))
+datatable(FIELDS_RC_BSE_DATA_TABLE, escape = FALSE, rownames = FALSE, options = list(dom = 't', pageLength = nrow(FIELDS_RC_BSE_DATA_TABLE)))
 ```
 
 ## Data contents {#contents}
@@ -109,18 +106,12 @@ datatable(FIELDS_STD_RC_DATA_TABLE, escape = FALSE, rownames = FALSE, options = 
 
 ### Fleets
 
-```{r FleetCodeList}
+```{r FleetCodeList, eval = FALSE}
 datatable(CL_FLEETS, rownames = FALSE, options = list(dom = 't', pageLength = nrow(CL_FLEETS)))
 ```
 
 ### Gears
 
-```{r gearCodeList}
+```{r GearCodeList, eval = FALSE}
 datatable(CL_GEARS, rownames = FALSE, options = list(dom = 't', pageLength = nrow(CL_GEARS)))
-```
-
-### Raisings
-
-```{r RaisingCodeList}
-datatable(CL_RAISINGS, rownames = FALSE, options = list(dom = 't', pageLength = nrow(CL_RAISINGS)))
 ```
