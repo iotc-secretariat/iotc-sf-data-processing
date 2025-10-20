@@ -56,20 +56,6 @@ render("./rmd/SF_DESCRIPTION.Rmd", output_file = paste0("DESCRIPTION_", TITLE, "
        params = list(dynamictitle = paste0("Standardisation of the size-frequency data for ", SPECIES_SELECTED, " ", START_YEAR, "--", END_YEAR))
 )
 
-# Temp RC METADATA
-setwd("initialisation/")
-source("90_LIBS.R")
-source("91_LIBS_EXTERNAL.R")
-#source("01_CL_EXTRACTION_RC.R")
-source("08_RC_DATA_EXPORT.R")
-setwd("..")
-
-render("./rmd/RC_METADATA.Rmd", 
-       output_format = "html_document2",
-       output_file = paste0("METADATA_", TITLE, ".html"), 
-       output_dir = "./outputs/html/",
-       params = list(dynamictitle = paste("Metadata for Retained Catch Data")))
-
 
 
 
