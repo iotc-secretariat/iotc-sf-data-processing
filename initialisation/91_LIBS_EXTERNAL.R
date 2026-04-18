@@ -10,5 +10,8 @@ pacman::p_load(
   "officer",
   "lubridate",
   "DT", 
-  "flextable"
+  "flextable", 
+  "ows4R", 
+  "fdisf",       #pak::pak("https://github.com/fdiwg/fdisf")
+  "fdisfdata"    #pak::pak("https://github.com/fdiwg/fdisfdata")
 )

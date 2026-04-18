@@ -6,11 +6,6 @@ LEGACY_NEW_IRREGULAR_AREAS_MAPPING = fread("../inputs/mappings/MAPPING_SF_IRREGU
 # Extract the raw size data
 SF_RAW_DATA_SPECIES = SF_raw(species_code = CODE_SPECIES_SELECTED, years = START_YEAR:END_YEAR)
 
-# Temp fix for tunas caught in Seychelles (from FLUT to FL)
-SF_RAW_DATA_SPECIES[FLEET_CODE == "SYC" & GEAR_CODE == "PS" & MEASURE_TYPE_CODE == "FLUT", `:=` (MEASURE_TYPE_CODE = "FL", MEASURE_TYPE = "Fork length (lower jaw fork length for BIL)")]
-
-#SF_RAW_DATA_SPECIES[FLEET_CODE == "SYC" & GEAR_CODE %in% c("LLCO", "ELL", "LL", "FLL"), `:=` (MEASURE_TYPE_CODE = "FLUT", MEASURE_TYPE = "Fork length (unconverted tape measure lengths)")]
-
 # Save legacy fishing ground
 setnames(SF_RAW_DATA_SPECIES, old = "FISHING_GROUND_CODE", new = "LEGACY_FISHING_GROUND_CODE")
 

@@ -1,13 +1,30 @@
 l_info("Reading the spatial layers", prefix = "CL")
 
-# COUNTRIES ####
+# From FAO GeoServer ####
+
+# Connect to FAO GeoServer
+WFS = ows4R::WFSClient$new(url = "https://www.fao.org/fishery/geoserver/wfs", serviceVersion = "1.0.0", logger = "INFO")
+
+## IOTC Spatial Layers ####
+IO_AREA         = WFS$getFeatures("iotc:iotc_indian_ocean_areas_lowres") %>% filter(gml_id == "iotc_indian_ocean_areas_lowres.1")
+IOTC_AREA       = WFS$getFeatures("rfb:RFB_IOTC")
+IOTC_MAIN_AREAS = WFS$getFeatures("gta:cl_nc_areas") %>% filter(code %in% c("IOTC_EAST", "IOTC_WEST"))
+
+## CWP Grids ####
+cwp11 = WFS$getFeatures("cwp:cwp-grid-map-1deg_x_1deg")
+cwp55 = WFS$getFeatures("cwp:cwp-grid-map-5deg_x_5deg")
+CWP   = dplyr::bind_rows(cwp11, cwp55)
+
+# From Local Shapefiles ####
+
+## COUNTRIES ####
 if(!file.exists("../inputs/shapes/COUNTRY_AREAS_1.0.0_SHP.zip")){
   download.file("https://data.iotc.org/reference/latest/domain/admin/shapefiles/COUNTRY_AREAS_1.0.0_SHP.zip", destfile = "../inputs/shapes/COUNTRY_AREAS_1.0.0_SHP.zip", mode = "wb")
   unzip("../inputs/shapes/COUNTRY_AREAS_1.0.0_SHP.zip", exdir = "../inputs/shapes/")}
 
 COUNTRY_AREAS_SF = st_read("../inputs/shapes/COUNTRY_AREAS_1.0.0.shp")
 
-# IOTC GRIDS ####
+## IOTC GRIDS ####
 
 ## 1x1 GRID ####
 if(!file.exists("../inputs/shapes/IO_GRIDS_01x01_1.0.0_SHP.zip")){

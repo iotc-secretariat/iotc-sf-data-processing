@@ -26,3 +26,16 @@ ggplot(FL, aes(x = CLASS_MID, y = N)) +
         legend.title = element_blank()) +
   theme(strip.background = element_rect(fill = "white")) +
   facet_wrap(~YEAR, scales = "free_y")
+
+ggplot() +
+  theme_bw() +
+  geom_sf(data = fdisfdata::un_countries_lowres, color = "darkgrey") +
+  #geom_sf(data = WJA_IO_COUNTRIES, aes(fill = code), linewidth = .5) +
+  #geom_sf(data = WJA_IO_COUNTRIES_AGG, fill = lighten("#377EB8", 0.3)) +
+  #geom_sf(data = WJA_IO_NON_IOTC_MEMBERS_IOTC_AREA, fill = lighten("#377EB8", 0.3)) +
+  #geom_sf(data = CWP %>% filter(CWP_CODE  %in% popo), fill = "red") +
+  scale_x_continuous(limits = c(20, 145)) +
+  scale_y_continuous(limits = c(-60, 30)) +
+  labs(x = "", y = "") +
+  theme(legend.position = "none", legend.title = element_blank()) +
+  theme(panel.grid.major = element_line(color = gray(.5), linetype = "dashed", linewidth = 0.3), panel.border = element_rect(fill = NA, colour = "black", linewidth = 1.2))

@@ -5,7 +5,7 @@ library(this.path)
 setwd(here())
 
 # Select the species
-CODE_SPECIES_SELECTED = "BET"
+CODE_SPECIES_SELECTED = "SWO"
 START_YEAR            = 1950
 END_YEAR              = 2024
 

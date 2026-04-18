@@ -18,7 +18,7 @@ names(CL_SIZE_REC) = c("", "")
 # Full code lists
 CL_SPECIES = query(C_REFERENCE_DATA, query = paste0("SELECT code AS species_code, name_en AS species, name_scientific AS species_scientific FROM refs_biology.species WHERE CODE = \'", CODE_SPECIES_SELECTED, "\';")) %>% {setnames(., new = toupper(names(.))); .}
 
-CL_FLEETS = query(C_REFERENCE_DATA, query = "SELECT DISTINCT fleet_code, name_en, name_fr FROM refs_legacy.fleets;") %>% {setnames(., new = toupper(names(.))); .}
+CL_FLEETS = query(C_REFERENCE_DATA, query = "SELECT DISTINCT code as fleet_code, name_en, name_fr FROM refs_legacy.fleets;") %>% {setnames(., new = toupper(names(.))); .}
 
 CL_FISHING_GROUNDS = query(C_REFERENCE_DATA, query = "SELECT code AS fishing_ground_code, label_en AS description_en, label_fr AS description_fr, area_type_code FROM refs_gis.areas") %>% {setnames(., new = toupper(names(.))); .}
 

@@ -1,5 +1,9 @@
 l_info("Standardising the size-frequency data")
 
+# Temp fix/test for SYC LL size measurements in 2016
+# Assuming measurements were made in Pectoral-anal length
+SF_RAW_DATA_SPECIES[FLEET_CODE == "SYC" & GEAR_CODE == "ELL" & YEAR == 2016, `:=` (MEASURE_TYPE_CODE = "PAL", MEASURE_TYPE = "Pectoral-anal length (by using a calliper)")]
+
 # Filtering ####
 
 ## Data reported outside the Indian Ocean ####
@@ -20,6 +24,8 @@ FL_STD_DATA_SPECIES = standardize.SF(SF_DATA_SPECIES,
                                      first_class_low = CL_SIZE_REC_TABLE$MIN_MEASUREMENT, 
                                      last_size_bin = 150)[, .(FLEET_CODE, YEAR, MONTH_START, MONTH_END, FISHING_GROUND_CODE, GEAR_CODE, SCHOOL_TYPE_CODE, SPECIES_CODE, MEASURE_TYPE_CODE, RAISE_CODE, CLASS_LOW, CLASS_HIGH, FISH_COUNT)]
 
+if(CODE_SPECIES_SELECTED %in% c("BLM", "BUM", "MLS", "SFA", "SWO")) {FL_STD_DATA_SPECIES[, MEASURE_TYPE_CODE := "LJ"]}
+
 # Trick to aggregate all sex in table
 SF_RAW_DATA_SPECIES[, SEX_CODE := "UNCL"]
 
@@ -31,5 +37,7 @@ FL_STD_DATA_SPECIES_TABLE = standardize_and_pivot_size_frequencies(SF_DATA_SPECI
                                                                    first_class_low = CL_SIZE_REC_TABLE$MIN_MEASUREMENT, 
                                                                    last_size_bin = 150, 
                                                                    keep_sex_and_raise_code = TRUE)[, -c("SEX_CODE")]#, "AVG_WEIGHT")]
+
+if(CODE_SPECIES_SELECTED %in% c("BLM", "BUM", "MLS", "SFA", "SWO")) {FL_STD_DATA_SPECIES_TABLE[, MEASURE_TYPE_CODE := "LJ"]}
 
 l_info("Size-frequency data standardised")

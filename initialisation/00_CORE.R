@@ -4,10 +4,8 @@ options(scipen = 9999)
 # Load libraries
 source("90_LIBS.R")
 source("91_LIBS_EXTERNAL.R")
-source("94_QUALITY_SCORING_KEY_CHART.R")
-
-# Define species of interest
-CODE_SPECIES_SELECTED = 'BET'
+source("92_QUALITY_SCORING_KEY_CHART.R")
+source("93_TABLEFORMAT_FUNCTION.R")
 
 # Define connection to postgres version of the code list database
 C_REFERENCE_DATA = 
@@ -25,11 +23,15 @@ source("02_SF_DATA_EXTRACTION.R")
 source("03_SF_DATA_PROCESSING.R")
 source("04_SF_DATA_PROCESSING_DESCRIPTION.R")
 source("05_SF_DATA_QUALITY.R")
-source("06_SPATIAL_LAYERS.R")
-source("07_CL_FILTERING_FOR_EXPORT.R")
-source("08_FL_DATA_EXPORT.R")
-source("09_FL_METADATA_CONTENTS.R")
-source("10_WP_EXPORT.R")
-source("11_IOTDB_EXPORT.R")
+
+# Species-specific missing data quality treatment
+#source(paste0("./06_SF_DATA_MISSING_QUALITY_",  CODE_SPECIES_SELECTED, ".R"))
+
+source("07_SPATIAL_LAYERS.R")
+source("08_CL_FILTERING_FOR_EXPORT.R")
+source("09_FL_DATA_EXPORT.R")
+source("10_FL_METADATA_CONTENTS.R")
+#source("11_WP_EXPORT.R")     # Need to create Legacy format and harmonise with general dataset page
+source("12_IOTDB_EXPORT.R")
 
 
