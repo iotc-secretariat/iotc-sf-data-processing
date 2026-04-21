@@ -1,10 +1,13 @@
 l_info("Extracting the raw size-frequency data...")
 
-# Map legacy IOTDB codes to new codes
-LEGACY_NEW_IRREGULAR_AREAS_MAPPING = fread("../inputs/mappings/MAPPING_SF_IRREGULAR_AREAS_IOTDB_MASTER.csv", colClasses = c("character", "character"))
-
 # Extract the raw size data
 SF_RAW_DATA_SPECIES = SF_raw(species_code = CODE_SPECIES_SELECTED, years = START_YEAR:END_YEAR)
+
+# Temp fix/test for SYC LL size measurements in 2016
+# Assuming measurements were made in Pectoral-anal length
+SF_RAW_DATA_SPECIES[FLEET_CODE == "SYC" & GEAR_CODE == "ELL" & YEAR == 2016, `:=` (MEASURE_TYPE_CODE = "PAL", MEASURE_TYPE = "Pectoral-anal length (by using a calliper)")]
+
+#SF_RAW_DATA_SPECIES_BACKUP = copy(SF_RAW_DATA_SPECIES)
 
 # Save legacy fishing ground
 setnames(SF_RAW_DATA_SPECIES, old = "FISHING_GROUND_CODE", new = "LEGACY_FISHING_GROUND_CODE")

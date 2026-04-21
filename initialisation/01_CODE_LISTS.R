@@ -30,4 +30,13 @@ CL_RAISINGS = query(C_REFERENCE_DATA, query = "SELECT DISTINCT code AS raising_c
 
 CL_MEASUREMENTS = query(C_REFERENCE_DATA, query = "SELECT DISTINCT code AS measure_type_code, name_en, description_en, name_fr, description_fr FROM refs_biology.measurements WHERE CODE IN ('FL', 'LJ');") %>% {setnames(., new = toupper(names(.))); .}
 
+# Mappings
+
+LEGACY_NEW_IRREGULAR_AREAS_MAPPING = fread("../inputs/mappings/MAPPING_SF_IRREGULAR_AREAS_IOTDB_MASTER.csv", colClasses = c("character", "character"))
+
+CL_GEAR_TO_FISHERY_TYPE_MAPPING = unique(NC_est()[, .(GEAR_CODE, FISHERY_TYPE_CODE)][order(GEAR_CODE)])
+
+# Corrections
+CL_GEAR_TO_FISHERY_TYPE_MAPPING = CL_GEAR_TO_FISHERY_TYPE_MAPPING[! ( (GEAR_CODE == "BB" & FISHERY_TYPE_CODE == "IND") | (GEAR_CODE == "TRAW" & FISHERY_TYPE_CODE == "ART") | (GEAR_CODE == "GIOF" & FISHERY_TYPE_CODE == "ART") | (GEAR_CODE == "BBOF" & FISHERY_TYPE_CODE == "ART") )]
+
 l_info("Code lists extracted!")

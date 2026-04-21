@@ -40,8 +40,12 @@ if(!file.exists("../inputs/shapes/IO_GRIDS_05x05_1.0.0_SHP.zip")){
 
 IOTC_5x5_GRID_SF = st_read("../inputs/shapes/IO_GRIDS_05x05_1.0.0.shp", crs = st_crs(4326))
 
+# From IOTC databases
+
+IO_SF_GRID_LIST = query(DB_IOTC_MASTER(), "SELECT DISTINCT CODE, NAME_EN FROM refs_gis.V_IO_GRIDS_CE_SF;")
+
 # Spatial layer of non standard grids (i.e., different than 1x1 and 5x5 grids)
-# LIST_SF_NON_STANDARD_AREAS derived in 02_SF_DATA_EXTRACTION.R
+# LIST_SF_NON_STANDARD_AREAS derived in 03_SF_RAW_DATA_EXTRACTION.R
 SF_NON_STANDARD_AREAS =
   query(
     C_REFERENCE_DATA, paste0("

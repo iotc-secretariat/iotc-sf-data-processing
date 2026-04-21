@@ -22,7 +22,7 @@ source("01_CL_EXTRACTION.R")
 source("02_SF_DATA_EXTRACTION.R")
 source("03_SF_DATA_PROCESSING.R")
 source("04_SF_DATA_PROCESSING_DESCRIPTION.R")
-source("05_SF_DATA_QUALITY.R")
+source("05_SF_DATA_CONSOLIDATION.R")
 
 # Species-specific missing data quality treatment
 #source(paste0("./06_SF_DATA_MISSING_QUALITY_",  CODE_SPECIES_SELECTED, ".R"))
@@ -32,6 +32,6 @@ source("08_CL_FILTERING_FOR_EXPORT.R")
 source("09_FL_DATA_EXPORT.R")
 source("10_FL_METADATA_CONTENTS.R")
 #source("11_WP_EXPORT.R")     # Need to create Legacy format and harmonise with general dataset page
-source("12_IOTDB_EXPORT.R")
+#source("12_IOTDB_EXPORT.R")
 
 
