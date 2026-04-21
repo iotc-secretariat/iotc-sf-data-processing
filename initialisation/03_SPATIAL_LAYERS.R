@@ -18,11 +18,11 @@ CWP   = dplyr::bind_rows(cwp11, cwp55)
 # From Local Shapefiles ####
 
 ## COUNTRIES ####
-if(!file.exists("../inputs/shapes/COUNTRY_AREAS_1.0.0_SHP.zip")){
-  download.file("https://data.iotc.org/reference/latest/domain/admin/shapefiles/COUNTRY_AREAS_1.0.0_SHP.zip", destfile = "../inputs/shapes/COUNTRY_AREAS_1.0.0_SHP.zip", mode = "wb")
-  unzip("../inputs/shapes/COUNTRY_AREAS_1.0.0_SHP.zip", exdir = "../inputs/shapes/")}
+# if(!file.exists("../inputs/shapes/COUNTRY_AREAS_1.0.0_SHP.zip")){
+#   download.file("https://data.iotc.org/reference/latest/domain/admin/shapefiles/COUNTRY_AREAS_1.0.0_SHP.zip", destfile = "../inputs/shapes/COUNTRY_AREAS_1.0.0_SHP.zip", mode = "wb")
+#   unzip("../inputs/shapes/COUNTRY_AREAS_1.0.0_SHP.zip", exdir = "../inputs/shapes/")}
 
-COUNTRY_AREAS_SF = st_read("../inputs/shapes/COUNTRY_AREAS_1.0.0.shp")
+#COUNTRY_AREAS_SF = st_read("../inputs/shapes/COUNTRY_AREAS_1.0.0.shp")
 
 ## IOTC GRIDS ####
 
